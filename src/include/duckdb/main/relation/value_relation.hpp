@@ -20,6 +20,9 @@ public:
 	ValueRelation(const shared_ptr<ClientContext> &context, const string &values, vector<string> names,
 	              string alias = "values");
 
+	ValueRelation(const shared_ptr<ClientContext> &context, vector<vector<unique_ptr<ParsedExpression>>> expressions,
+							 vector<string> names_p, string alias = "values");
+
 	vector<vector<unique_ptr<ParsedExpression>>> expressions;
 	vector<string> names;
 	vector<ColumnDefinition> columns;

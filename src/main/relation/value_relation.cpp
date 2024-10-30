@@ -32,6 +32,13 @@ ValueRelation::ValueRelation(const shared_ptr<ClientContext> &context, const str
 	context->TryBindRelation(*this, this->columns);
 }
 
+ValueRelation::ValueRelation(const shared_ptr<ClientContext> &context, vector<vector<unique_ptr<ParsedExpression>>> expressions,
+							 vector<string> names_p, string alias_p)
+	: Relation(context, RelationType::VALUE_LIST_RELATION), expressions(std::move(expressions)), names(std::move(names_p)), alias(std::move(alias_p)) {
+	QueryResult::DeduplicateColumns(names);
+	context->TryBindRelation(*this, this->columns);
+}
+
 unique_ptr<QueryNode> ValueRelation::GetQueryNode() {
 	auto result = make_uniq<SelectNode>();
 	result->select_list.push_back(make_uniq<StarExpression>());
